@@ -9,12 +9,14 @@ A Spring Boot application for managing cab assignments and passenger rides with 
 - **Ride Assignment**: Automatically assign the nearest available cab to passengers
 - **Administrative Dashboard**: Monitor system statistics and manage users
 - **Scheduled Operations**: Automatically create ride plans at 8:00 AM and 7:00 PM daily
+- **Model Control Protocol (MCP)**: Integration with AI models for intelligent cab assignment and route optimization
 
 ## Prerequisites
 
 - Java 11 or higher
 - Maven 3.6 or higher
 - H2 Database (embedded)
+- LM Studio or compatible AI model server (for MCP features)
 
 ## Getting Started
 
@@ -67,6 +69,13 @@ Once the application is running, you can access:
 - `GET /api/rides/{id}` - Get ride assignment by ID
 - `PUT /api/rides/{id}/status` - Update ride status
 
+### MCP (Model Control Protocol)
+
+- `POST /api/mcp/generate` - Generate response using the configured AI model
+- `GET /api/mcp/models` - List available AI models
+- `POST /api/mcp/models/switch` - Switch between different AI models
+- `GET /api/mcp/status` - Get current MCP configuration and status
+
 ### Admin
 - `GET /api/admin/statistics` - Get system statistics
 - `GET /api/admin/administrators` - Get all administrators
@@ -111,6 +120,14 @@ The system automatically runs ride assignments at:
 - assignmentTime: LocalDateTime
 - completionTime: LocalDateTime
 - status: String (PENDING, IN_PROGRESS, COMPLETED, CANCELLED)
+
+### MCPConfig
+- id: Long
+- modelName: String
+- baseUrl: String
+- temperature: Double
+- maxTokens: Integer
+- enabled: Boolean
 
 ## Contributing
 
