@@ -1,0 +1,33 @@
+{
+  "name": "book_cab",
+  "description": "Book a cab with the specified details",
+  "parameters": {
+    "type": "object",
+    "properties": {
+      "pickupLocation": {
+        "type": "string",
+        "description": "The pickup location address"
+      },
+      "dropoffLocation": {
+        "type": "string",
+        "description": "The drop-off location address"
+      },
+      "pickupTime": {
+        "type": "string",
+        "description": "Desired pickup time in ISO 8601 format (e.g., 2025-06-20T10:00:00)",
+        "format": "date-time"
+      },
+      "passengers": {
+        "type": "integer",
+        "description": "Number of passengers (default: 1)",
+        "minimum": 1,
+        "default": 1
+      },
+      "specialRequests": {
+        "type": "string",
+        "description": "Any special requests or notes for the booking"
+      }
+    },
+    "required": ["pickupLocation", "dropoffLocation", "pickupTime"]
+  }
+}

@@ -1,0 +1,90 @@
+spring:
+  application:
+    name: cab-rooster-management
+
+# LMStudio Configuration
+lmstudio:
+  api:
+    base-url: http://127.0.0.1:1234
+  model: llama-3.2-1b-instruct
+  function:
+    schemas:
+      default: "{}"
+
+# Server Configuration
+server:
+  port: 8080
+  servlet:
+    context-path: /api
+
+# Logging Configuration
+logging:
+  level:
+    root: INFO
+    org.springframework: INFO
+    com.cabrooster: DEBUG
+
+# Database Configuration
+spring.datasource:
+  url: jdbc:h2:mem:testdb
+  username: sa
+  password: password
+  driver-class-name: org.h2.Driver
+  hikari:
+    maximum-pool-size: 5
+
+# H2 Console
+spring.h2.console.enabled: true
+spring.h2.console.path: /h2-console
+
+# JPA/Hibernate
+spring.jpa:
+  hibernate:
+    ddl-auto: update
+    show-sql: true
+  properties:
+    hibernate:
+      format_sql: true
+      dialect: org.hibernate.dialect.H2Dialect
+  open-in-view: false
+
+# Actuator Endpoints
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics,prometheus
+  endpoint:
+    health:
+      show-details: always
+    metrics:
+      enabled: true
+
+# Rate Limiting
+bucket4j:
+  enabled: true
+  filters:
+    - cache-name: rate-limit-buckets
+      url: /api/.*
+      rate-limits:
+        - bandwidths:
+            - capacity: 100
+              time: 1
+              unit: minutes
+          cache-key: "#{@rateLimitKeyResolver.resolve(T(jakarta.servlet.http.HttpServletRequest))}"
+
+# OpenAPI/Swagger Configuration
+springdoc:
+  api-docs:
+    path: /api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+    operations-sorter: method
+    tags-sorter: alpha
+    doc-expansion: none
+
+# Application Properties
+app:
+  version: 1.0.0
+  name: Cab Rooster Management
+  description: Cab Rooster Management System
